@@ -129,6 +129,11 @@ function App() {
                 setDomain(e.target.value);
                 setError('');
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && domain && !loading) {
+                  handleCheck();
+                }
+              }}
               placeholder="请输入要检测的域名"
               className={error ? 'error' : ''}
             />
