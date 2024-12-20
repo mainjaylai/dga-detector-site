@@ -46,7 +46,8 @@ function App() {
 
     try {
       setLoading(true);
-      const modelPath = window.location.origin + '/dga-detector-site/model/model.json';
+      // const modelPath = window.location.origin + '/dga-detector-site/model/model.json';
+      const modelPath = window.location.origin + '/model/model.json';
       const model = await tf.loadGraphModel(modelPath);
 
       const predictor = predictDGA(model, domain);
