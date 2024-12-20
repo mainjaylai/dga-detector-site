@@ -2,7 +2,6 @@ import { useState } from 'react'
 import './App.css'
 import * as tf from '@tensorflow/tfjs';
 import { Loading } from './components/Loading';
-import modelJson from '../assets/model/model.json';
 
 
 function App() {
@@ -47,7 +46,7 @@ function App() {
 
     try {
       setLoading(true);
-      const modelPath = modelJson;
+      const modelPath = '/model/model.json';
       const model = await tf.loadGraphModel(modelPath);
 
       const predictor = predictDGA(model, domain);
