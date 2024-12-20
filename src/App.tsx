@@ -86,10 +86,14 @@ function App() {
     }
 
     // 编码并填充域名
-    const domainEncoded = padSequence(encodeDomain(domain), 45);
+    const domainEncoded = padSequence(encodeDomain(domain), 100);
+
+    // 创建 40x100 的输入数据
+    const repeatedData = Array(40).fill(domainEncoded);
+    const flatData = repeatedData.flat();
 
     // 准备模型输入张量
-    const inputTensor = tf.tensor2d([domainEncoded]);
+    const inputTensor = tf.tensor2d(flatData, [40, 100]);
 
     // 返回预测结果的 Promise
     return {
