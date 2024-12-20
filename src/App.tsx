@@ -70,22 +70,28 @@ function App() {
 
     // 域名编码函数
     function encodeDomain(domain: string): number[] {
-      const encoded = Array.from(domain.toLowerCase())
+      return Array.from(domain.toLowerCase())
         .map(char => tokens[char] || 0);
-      // 确保编码后的长度为 100
-      return encoded.length > 100 ? encoded.slice(0, 100) : 
-             [...encoded, ...Array(100 - encoded.length).fill(0)];
     }
 
-    // 编码域名
-    const domainEncoded = encodeDomain(domain);
-    
-    // 创建一个 40x100 的零矩阵
-    const batchData = new Array(40).fill(0).map(() => [...domainEncoded]);
-    
-    // 准备模型输入张量
-    const inputTensor = tf.tensor2d(batchData, [40, 100]);
+    // 填充序列函数
+    function padSequence(sequence: number[], maxLen: number): number[] {
+      if (sequence.length > maxLen) {
+        return sequence.slice(0, maxLen);
+      }
+      return [
+        ...sequence,
+        ...Array(maxLen - sequence.length).fill(0)
+      ];
+    }
 
+    // 编码并填充域名
+    const domainEncoded = padSequence(encodeDomain(domain), 45);
+
+    // 准备模型输入张量
+    const inputTensor = tf.tensor2d([domainEncoded]);
+
+    // 返回预测结果的 Promise
     return {
       modelId: "cacic-2018-model",
       domain: domain,
